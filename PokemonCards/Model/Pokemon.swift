@@ -17,7 +17,7 @@ struct Card: Codable {
     let id, name: String
     let nationalPokedexNumber: Int?
     let imageURL, imageURLHiRes: String
-    let types: [RetreatCost]?
+    let types: [String]?
     let supertype: String?
     let subtype, evolvesFrom: String?
     let hp, number: String?

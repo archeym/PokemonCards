@@ -18,6 +18,7 @@ class PokemonViewController: UIViewController {
         getPokemonData()
     }
     
+    //MARK: - getPokemonData
     func getPokemonData(){
         let jsonUrl = "https://api.pokemontcg.io/v1/cards"
         
@@ -33,6 +34,7 @@ class PokemonViewController: UIViewController {
             if error != nil {
                 print((error?.localizedDescription)!)
             }
+            dump(response)
             
             guard let data = data else {
                 print(String(describing: error))
@@ -40,6 +42,7 @@ class PokemonViewController: UIViewController {
             }
             
             do {
+                
                 let jsonData = try JSONDecoder().decode(Pokemon.self, from: data)
                 dump(jsonData)
                 self.pokey = jsonData.cards
@@ -82,7 +85,17 @@ extension PokemonViewController: UITableViewDelegate, UITableViewDataSource {
         return 250
     }
     
-#warning("use a segue to pass  var pokey: [Card] to a DetailVC")
+    //MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "pokemon" {
+            guard let destinationVC = segue.destination as? PokeyDetailViewController, let row = tableViewOutlet.indexPathForSelectedRow?.row else { return
+            }
+            destinationVC.pokemon = pokey[row]
+            
+        }
+    }
+    
     
 }
 
